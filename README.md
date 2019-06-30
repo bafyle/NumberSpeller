@@ -7,5 +7,5 @@ You can change the extension of sound files, but you have to rename every single
 (Quote from https://www.sfml-dev.org/tutorials/2.5/audio-sounds.php):
 SFML supports the audio file formats WAV, OGG/Vorbis and FLAC. Due to licensing issues MP3 is not supported.
 
-#Download SFML:
+# Download SFML:
 https://www.sfml-dev.org/download/sfml/2.5.1/
