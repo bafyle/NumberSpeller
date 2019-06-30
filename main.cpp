@@ -157,7 +157,6 @@ void playThreeSound(char ss[], Sound &sound, SoundBuffer &buf)
 
 void playFourSound(char in[], Sound &sound, SoundBuffer &buf)
 {
-    //thousands function, but i don't have the sounds now
     string gf = "sounds/";
     switch(in[0])
     {
