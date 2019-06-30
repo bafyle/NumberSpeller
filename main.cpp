@@ -56,10 +56,7 @@ void playTowSound(char ss[], Sound &sound, SoundBuffer &buf)
         if(ss[1] != '0')
         {
             playOneSound(ss[1], sound, buf);
-            buf.loadFromFile("sounds/and.ogg");
-            sound.setBuffer(buf);
-            sound.play();
-            while(sound.getStatus() == Sound::Playing){sleep(milliseconds(1.f));}
+            playand(sound, buf);
         }
         switch(ss[0])
         {
