@@ -18,12 +18,10 @@ void playand(Sound &sound, SoundBuffer &buf)
 
 size_t len(char s[])
 {
-    size_t reval = 0;
-    for(size_t i = 0; s[i] != 0; i++)
-    {
-        reval++;
-    }
-    return reval;
+    size_t i = 0;
+    while (s[i] != 0)
+        i++;
+    return i;
 }
 
 void playOneSound(char n, Sound &sound, SoundBuffer &buf)
@@ -124,7 +122,7 @@ void playThreeSound(char ss[], Sound &sound, SoundBuffer &buf)
         sound.setBuffer(buf);
         sound.play();
         while(sound.getStatus() == Sound::Playing){sleep(milliseconds(1.f));}
-        if((ss[1] == '0' || ss[1] == '1') && ss[2] != '0')
+        if(((ss[1] == '0' || ss[1] == '1') && ss[2] != '0') || ( ss[1] != '0' && ss[2] == '0'))
             playand(sound, buf);
     }
     if(ss[1] != '0' || ss[2] != '0')
