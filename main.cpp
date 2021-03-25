@@ -1,11 +1,12 @@
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 using namespace sf;
 
-void playand(Sound &sound, SoundBuffer &buf)
+void playAnd(Sound &sound, SoundBuffer &buf)
 {
     buf.loadFromFile("sounds/and.ogg");
     sound.setBuffer(buf);
@@ -16,14 +17,15 @@ void playand(Sound &sound, SoundBuffer &buf)
     }
 }
 
-size_t len(char s[])
+bool isThereAChar(string & str)
 {
-    size_t i = 0;
-    while (s[i] != 0)
-        i++;
-    return i;
+    for(char &c : str)
+    {
+        if(isalpha(c))
+            return true;
+    }
+    return false;
 }
-
 void playOneSound(char n, Sound &sound, SoundBuffer &buf)
 {
     string gf = "sounds/";
@@ -49,17 +51,17 @@ void playOneSound(char n, Sound &sound, SoundBuffer &buf)
     }
 }
 
-void playTowSound(char ss[], Sound &sound, SoundBuffer &buf)
+void playTowSound(const char* in, Sound &sound, SoundBuffer &buf)
 {
     string gf = "sounds/";
-    if(ss[0] != '1')
+    if(in[0] != '1')
     {
-        if(ss[1] != '0')
+        if(in[1] != '0')
         {
-            playOneSound(ss[1], sound, buf);
-            playand(sound, buf);
+            playOneSound(in[1], sound, buf);
+            playAnd(sound, buf);
         }
-        switch(ss[0])
+        switch(in[0])
         {
             case '2': gf += "twenty.ogg"; break;
             case '3': gf += "thirty.ogg"; break;
@@ -81,7 +83,7 @@ void playTowSound(char ss[], Sound &sound, SoundBuffer &buf)
     else
     {
         gf += "special_case/";
-        switch(ss[1])
+        switch(in[1])
         {
             case '0': gf += "ten.ogg"; break;
             case '1': gf += "eleven.ogg"; break;
@@ -101,10 +103,10 @@ void playTowSound(char ss[], Sound &sound, SoundBuffer &buf)
     }
 }
 
-void playThreeSound(char ss[], Sound &sound, SoundBuffer &buf)
+void playThreeSound(const char* in, Sound &sound, SoundBuffer &buf)
 {
     string gf = "sounds/";
-    switch(ss[0])
+    switch(in[0])
     {
         case '1': gf += "hundred.ogg"; break;
         case '2': gf += "twohundred.ogg"; break;
@@ -122,27 +124,27 @@ void playThreeSound(char ss[], Sound &sound, SoundBuffer &buf)
         sound.setBuffer(buf);
         sound.play();
         while(sound.getStatus() == Sound::Playing){sleep(milliseconds(1.f));}
-        if(((ss[1] == '0' || ss[1] == '1') && ss[2] != '0') || ( ss[1] != '0' && ss[2] == '0'))
-            playand(sound, buf);
+        if(((in[1] == '0' || in[1] == '1') && in[2] != '0') || ( in[1] != '0' && in[2] == '0'))
+            playAnd(sound, buf);
     }
-    if(ss[1] != '0' || ss[2] != '0')
+    if(in[1] != '0' || in[2] != '0')
     {
-        if(ss[1] == '0')
+        if(in[1] == '0')
         {
-            playOneSound(ss[2], sound, buf);
+            playOneSound(in[2], sound, buf);
         }
         else
         {
             char sg[3];
             sg[2] = 0;
-            sg[0] = ss[1];
-            sg[1] = ss[2];
+            sg[0] = in[1];
+            sg[1] = in[2];
             playTowSound(sg, sound, buf);
         }
     }
 }
 
-void playFourSound(char in[], Sound &sound, SoundBuffer &buf)
+void playFourSound(const char* in, Sound &sound, SoundBuffer &buf)
 {
     string gf = "sounds/";
     switch(in[0])
@@ -167,7 +169,7 @@ void playFourSound(char in[], Sound &sound, SoundBuffer &buf)
     if(in[1] == '0' && in[2] != '1')
     {
         if(in[2] != '0' && in[3] != '0')
-            playand(sound, buf);
+            playAnd(sound, buf);
     }
     char ss[4];
     ss[0] = in[1];
@@ -176,7 +178,7 @@ void playFourSound(char in[], Sound &sound, SoundBuffer &buf)
     playThreeSound(ss, sound, buf);
 }
 
-void playFiveSound(char in[], Sound & sound, SoundBuffer &buf)
+void playFiveSound(const char* in, Sound & sound, SoundBuffer &buf)
 {
     if(in[0] != '0')
     {
@@ -185,7 +187,7 @@ void playFiveSound(char in[], Sound & sound, SoundBuffer &buf)
         sound.setBuffer(buf);
         sound.play();
         while(sound.getStatus() == Sound::Playing){sleep(milliseconds(1.f));}
-        playand(sound, buf);
+        playAnd(sound, buf);
         char ss[4];
         ss[0] = in[2];
         ss[1] = in[3];
@@ -202,7 +204,7 @@ void playFiveSound(char in[], Sound & sound, SoundBuffer &buf)
         playFourSound(ss, sound, buf);
     }
 }
-void playSixSound(char in[], Sound & sound, SoundBuffer &buf)
+void playSixSound(const char* in, Sound & sound, SoundBuffer &buf)
 {
     if(in[0] != '0')
     {
@@ -211,7 +213,7 @@ void playSixSound(char in[], Sound & sound, SoundBuffer &buf)
         sound.setBuffer(buf);
         sound.play();
         while(sound.getStatus() == Sound::Playing){sleep(milliseconds(1.f));}
-        playand(sound, buf);
+        playAnd(sound, buf);
         char ss[4];
         ss[0] = in[3];
         ss[1] = in[4];
@@ -229,7 +231,7 @@ void playSixSound(char in[], Sound & sound, SoundBuffer &buf)
     }
 }
 
-void playSevenSound(char in[], Sound &sound, SoundBuffer &buf)
+void playSevenSound(const char* in, Sound &sound, SoundBuffer &buf)
 {
     if(in[0] == '1')
     {
@@ -237,7 +239,7 @@ void playSevenSound(char in[], Sound &sound, SoundBuffer &buf)
         sound.setBuffer(buf);
         sound.play();
         while(sound.getStatus() == Sound::Playing){sleep(milliseconds(1.f));}
-        playand(sound, buf);
+        playAnd(sound, buf);
     }
     else if(in[0] != '0')
     {
@@ -246,7 +248,7 @@ void playSevenSound(char in[], Sound &sound, SoundBuffer &buf)
         sound.setBuffer(buf);
         sound.play();
         while(sound.getStatus() == Sound::Playing){sleep(milliseconds(1.f));}
-        playand(sound, buf);
+        playAnd(sound, buf);
     }
     char ss[7];
     for(int i = 0; i < 7; i++)
@@ -258,19 +260,28 @@ int main()
 {
     Sound sound;
     SoundBuffer buf;
-    char in[8];
+    string input;
+    size_t length;
     cout << "Type a number:\n";
-    cin >> in;
-    size_t size = len(in);
-    switch(size)
+    cin >> input;
+    if(input.length() > 20 || isThereAChar(input))
     {
-        case 1: playOneSound(in[0], sound, buf); break;
-        case 2: playTowSound(in, sound, buf); break;
-        case 3: playThreeSound(in, sound, buf); break;
-        case 4: playFourSound(in, sound, buf); break;
-        case 5: playFiveSound(in, sound, buf); break;
-        case 6: playSixSound(in, sound, buf); break;
-        case 7: playSevenSound(in, sound, buf);
+        cout << "Bad input!" << endl;
+        return 0;
+    }
+    const char *c_string = input.c_str();
+    length = input.length();
+    switch(length)
+    {
+        case 1: playOneSound(c_string[0], sound, buf); break;
+        case 2: playTowSound(c_string, sound, buf); break;
+        case 3: playThreeSound(c_string, sound, buf); break;
+        case 4: playFourSound(c_string, sound, buf); break;
+        case 5: playFiveSound(c_string, sound, buf); break;
+        case 6: playSixSound(c_string, sound, buf); break;
+        case 7: playSevenSound(c_string, sound, buf); break;
+        default:
+            cout << "Unsupported." << endl;
     }
     return 0;
 }
